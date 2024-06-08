@@ -1,0 +1,34 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract EtherValueConverter {
+    address public owner;
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    // Function to receive Ether. msg.value will store the amount of Ether sent
+    receive() external payable {}
+
+    // Function to get the contract balance in wei
+    function getBalanceInWei() public view returns (uint256) {
+        return address(this).balance;
+    }
+
+    // Function to get the contract balance in ether
+    function getBalanceInEther() public view returns (uint256) {
+        return address(this).balance / 1 ether;
+    }
+
+    // Function to get the contract balance in gwei
+    function getBalanceInGwei() public view returns (uint256) {
+        return address(this).balance / 1 gwei;
+    }
+
+    // Function to withdraw ether from the contract
+    function withdraw() public {
+        require(msg.sender == owner, "Only the owner can withdraw funds");
+        payable(owner).transfer(address(this).balance);
+    }
+}
